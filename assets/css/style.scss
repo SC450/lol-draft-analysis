@@ -13,6 +13,20 @@ a#a-title * {
     color: #0ce4f9 !important;
 }
 
+header {
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    border-bottom: 1px dashed #F0E6D2;
+    padding: 20px 0;
+    margin: 0 0 40px 0;
+}
+
+header h2 {
+    font-size: 18px;
+    font-weight: 300;
+    color: #eaeaea;
+}
+
 h1, h2, h3, h4, h5, h6 {
     color: #0ce4f9; /* Cyan blue color - adjust the hex code as needed */
 }
@@ -23,7 +37,12 @@ a {
 
 /* Change horizontal rule color */
 hr {
-    border-top: 1px solid #C89B3C; /*#F0E6D2;*/
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #F0E6D2;
+    margin: 1em 0;
+    padding: 0;
 }
 
 body {
