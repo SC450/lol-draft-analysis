@@ -3,20 +3,22 @@
 
 @import "{{ site.theme }}";
 
+/* Target the specific title link */
+a#a-title {
+    color: #0ce4f9 !important;
+}
+  
+/* In case the styling is applied to child elements */
+a#a-title * {
+    color: #0ce4f9 !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
     color: #0ce4f9; /* Cyan blue color - adjust the hex code as needed */
 }
 
 a {
     color: #0ce4f9; /* This will change link colors to match */
-}
-
-#header h1 {
-    color: #0ce4f9;
-}
-
-#header h2 {
-    color: #0ce4f9;
 }
 
 body {
