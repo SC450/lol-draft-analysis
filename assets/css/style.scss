@@ -13,6 +13,7 @@ a#a-title * {
     color: #0ce4f9 !important;
 }
 
+/* Change horizontal rule color */
 header {
     background: rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -35,14 +36,33 @@ a {
     color: #0ce4f9; /* This will change link colors to match */
 }
 
-/* Change horizontal rule color */
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #F0E6D2;
-    margin: 1em 0;
-    padding: 0;
+/*
+.btn {
+    display: inline-block;
+    background: -webkit-linear-gradient(top, rgba(40, 40, 40, 0.3), rgba(35, 35, 35, 0.3) 50%, rgba(10, 10, 10, 0.3) 50%, rgba(0, 0, 0, 0.3));
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 2px solid rgba(0, 0, 0, 0.7);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.7);
+    border-top: 2px solid #000;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+    font-size: 13px;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+*/
+
+.btn {
+    display: inline-block;
+    background: -webkit-linear-gradient(top, #0AC8B9, #005A82);
+    padding: 8px 18px;
+    border-radius: 10px;
+    color: #eaeaea;
+    font-weight: bold;
+    font-size: 13px;
+    text-decoration: none;
 }
 
 body {
