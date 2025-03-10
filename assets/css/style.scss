@@ -21,7 +21,7 @@ a {
     color: #0ce4f9; /* This will change link colors to match */
 }
 
-#header h1 {
+h1 {
     color: #0ce4f9;
 }
 
@@ -30,13 +30,8 @@ h2 {
 }
 
 /* Change horizontal rule color */
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #F0E6D2;
-    margin: 1em 0;
-    padding: 0;
+header {
+    color: #F0E6D2;
 }
 
 body {
