@@ -3,18 +3,39 @@
 
 @import "{{ site.theme }}";
 
+/* Target the main title */
+.header-title, 
+.project-title, 
+.site-title,
+header h1#project_title, 
+#project_title {
+  color: #0397AB !important; /* Cyan blue with !important to override any other styles */
+}
+
+/* Additional selectors that might control the title */
+.title {
+  color: #0397AB !important;
+}
+
+/* Target page title text */
+#main_content h1:first-child {
+  color: #0397AB !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
-  color: #0ce4f9; /* Cyan blue color - adjust the hex code as needed */
+  color: #0AC8B9; /* Cyan blue color - adjust the hex code as needed */
 }
 
 a {
-  color: #0ce4f9; /* This will change link colors to match */
+  color: #0AC8B9; /* This will change link colors to match */
 }
 
 #header h1 {
-  color: #0ce4f9;
+  color: #0AC8B9;
 }
 
 #header h2 {
-  color: #0ce4f9;
+  color: #0AC8B9;
 }
+
+/* From color picker: #0ce4f9; */
