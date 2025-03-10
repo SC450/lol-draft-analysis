@@ -25,17 +25,18 @@ a {
     color: #0ce4f9;
 }
 
-#header h2 {
+h2 {
     color: #0ce4f9;
 }
 
 /* Change horizontal rule color */
 hr {
-    color: #F0E6D2; /* For older browsers */
-    background-color: #F0E6D2; /* For most modern browsers */
-    border-color: #F0E6D2; /* For browsers that render the hr as a border */
-    height: 1px; /* Adjust height as needed */
-    border: none; /* Remove default border */
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #F0E6D2;
+    margin: 1em 0;
+    padding: 0;
 }
 
 body {
