@@ -89,3 +89,18 @@ Now, we'll look at the relationship between `damage taken/min` and `ckpm` by plo
   height="500"
   frameborder="0"
 ></iframe>
+
+## Interesting Aggregates
+
+To conclude our exploration into the factors that make a game action-packed, let's look at a pivot table between `dragonkills` and `baronkills`. The index of this pivot table are `dragonkills` and the columns are `baronkills`, with values in the table being a team's average amount of damage taken per minute (`damage taken/min`) for that combination of `dragonkills` and `baronkills`. We can see that as the amount of dragons and barons killed in a game increases, there is generally more damage taken per minute by teams. However, this is not always the case: for example, the average damage taken per minute for games with 5 `dragonkills` and 4 `baronkills` is 4,023.9, while the average damage taken per minute for games with 7 `dragonkills` and 5 `baronkills` is 3,589.74, which means that higher amounts of dragons and barons killed does not necessarily result in a team taking more damage. This hints at the fact that slaying dragons and barons does not have to be a significantly perilous endeavor, if teams play carefully enough.
+
+|   dragonkills |       0 |       1 |       2 |       3 |       4 |       5 |
+|--------------:|--------:|--------:|--------:|--------:|--------:|--------:|
+|             0 | 3609.85 | 3568.59 | 3840.85 | 3229.05 |  nan    |  nan    |
+|             1 | 3614.18 | 3459.33 | 3590.57 | 4435.54 |  nan    |  nan    |
+|             2 | 3546.34 | 3365.41 | 3543.26 | 3736.29 | 4671.17 |  nan    |
+|             3 | 3558.33 | 3377.87 | 3453.2  | 3791.37 | 3737.49 |  nan    |
+|             4 | 3451.12 | 3302.13 | 3487.54 | 3643.63 | 4126.33 | 4320.46 |
+|             5 | 3425.73 | 3420.84 | 3431.95 | 3873.22 | 4023.9  |  nan    |
+|             6 | 3822.63 | 3338.37 | 4066.1  | 3820.12 | 3134.91 |  nan    |
+|             7 |  nan    |  nan    | 3204.86 |  nan    |  nan    | 3589.74 |
