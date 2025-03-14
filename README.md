@@ -49,7 +49,7 @@ The dataset I will be working with is enormous, as it contains 117,576 rows and 
 
 # Data Cleaning and Exploratory Data Analysis
 
-## Cleaning 
+## Cleaning the Dataset
 
 The format of the dataset I will be working with is in a unique format, where every 12 rows represents a match: the first 10 rows are player data, and the remaining 2 rows are data for the teams. I will keep the rows for the teams, as it is more comprehensive and further compresses the size of the dataset. I will be using **all** of the columns described above in my cleaned dataset. The steps I took to clean the dataset are as follows:
 - The team rows have missing values for `champion` and `minionkills`. I filled in this missing data with lists of a team's five chosen champions for `champion`, and the sum of each player's amount of minions respective to their team for `minionkills`.
@@ -67,3 +67,14 @@ The cleaned DataFrame contains 32 columns total: `gameid`, `team`, `victory`, `p
 | 10660-10660_game_2 | Blue   | False     | ['Kennen', "Bel'Veth", 'Neeko', 'Senna', 'Tahm Kench'] | ['Nocturne', 'Udyr', 'Renata Glasc', 'Nautilus', 'Lee Sin'] |      31.85   |       3 |       17 |         8 |     0.0942 |
 | 10660-10660_game_2 | Red    | True      | ['Jax', 'Jarvan IV', 'LeBlanc', 'Kalista', 'Rell']     | ['Poppy', 'Ashe', 'Rumble', 'Tristana', 'Lucian']           |      31.85   |      17 |        3 |        42 |     0.5338 |
 | 10660-10660_game_3 | Blue   | True      | ['Jax', "Bel'Veth", 'Neeko', 'Caitlyn', 'Lux']         | ['Rell', 'Nocturne', 'Tristana', 'Jarvan IV', 'Rumble']     |      22.0667 |      21 |        3 |        32 |     0.9517 |
+
+## Univariate Analysis
+
+Let's take a look at the distribution of the `ckpm` column in our cleaned dataset, which is the combined team kills per minute of a game. This statistic is useful for quantifying how bloody or action-packed a game was. The plot exhibits a normal distribution, with a slight skew to the right, suggesting that high intensity games can be quite rare.
+
+<iframe
+  src="assets/ckpm_plot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
