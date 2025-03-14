@@ -74,7 +74,18 @@ Let's take a look at the distribution of the `ckpm` column in our cleaned datase
 
 <iframe
   src="assets/ckpm_plot.html"
-  width="800"
-  height="600"
+  width="1000"
+  height="500"
+  frameborder="0"
+></iframe>
+
+## Bivariate Analysis
+
+Now, we'll look at the relationship between `damage taken/min` and `ckpm` by plotting them against each other. The scatter plot shows a positive correlation with a generally linear relationship, meaning that the death toll of a game will generally increase as players take more damage per minute.
+
+<iframe
+  src="assets/dmgtaken_vs_ckpm_plot.html"
+  width="1000"
+  height="500"
   frameborder="0"
 ></iframe>
