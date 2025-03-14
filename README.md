@@ -46,3 +46,26 @@ The dataset I will be working with is enormous, as it contains 117,576 rows and 
 | `'opp_killsat10'` | The opponent's amount of kills 10 minutes into a game. |
 | `'opp_assistsat10'` | The opponent's amount of assists 10 minutes into a game. |
 | `'opp_deathsat10'` | The opponent's amount of deaths 10 minutes into a game. |
+
+# Data Cleaning and Exploratory Data Analysis
+
+## Cleaning 
+
+The format of the dataset I will be working with is in a unique format, where every 12 rows represents a match: the first 10 rows are player data, and the remaining 2 rows are data for the teams. I will keep the rows for the teams, as it is more comprehensive and further compresses the size of the dataset. I will be using **all** of the columns described above in my cleaned dataset. The steps I took to clean the dataset are as follows:
+- The team rows have missing values for `champion` and `minionkills`. I filled in this missing data with lists of a team's five chosen champions for `champion`, and the sum of each player's amount of minions respective to their team for `minionkills`.
+- I dropped the rows corresponding to player data, only keeping rows that correspond to team data.
+- There are five separate columns representing banned champions, which are labeled `ban1` - `ban5`. Missing values in any of these ban columns are filled in with "N/A". I condensed these columns into a single column called `bans`, which contains lists of a team's five chosen bans for their opposing team.
+- I converted the `result` column from an integer type to a boolean type, converted `gamelength` to minutes, and made sure that `minionkills`, `dragonkills`, and `baronkills` were integer columns.
+- Finally, I renamed and reorganized the columns for better visual appearance.
+
+Here are the first few rows of the cleaned DataFrame. For the purposes of display, columns which contain information about early game metrics (`goldat10`, `xpat10`, `csat10`...) are not shown.
+
+| gameid             | team   | victory   | picks                                                  | bans                                                        |   gamelength |   kills |   deaths |   assists |   team kpm |   ckpm |   damage taken/min |   damage mitigated/min |   monsterkills |   minionkills |   dragonkills |   baronkills |
+|:-------------------|:-------|:----------|:-------------------------------------------------------|:------------------------------------------------------------|-------------:|--------:|---------:|----------:|-----------:|-------:|-------------------:|-----------------------:|---------------:|--------------:|--------------:|-------------:|
+| 10660-10660_game_1 | Blue   | False     | ['Aatrox', 'Maokai', 'Orianna', 'Kalista', 'Senna']    | ['Akali', 'Nocturne', "K'Sante", 'Lee Sin', 'Wukong']       |      31.4333 |       3 |       16 |         7 |     0.0954 | 0.6045 |            2574.97 |                    nan |            167 |           876 |             2 |            0 |
+| 10660-10660_game_1 | Red    | True      | ['Rumble', 'Rell', 'LeBlanc', 'Varus', 'Renata Glasc'] | ['Poppy', 'Ashe', 'Neeko', 'Vi', 'Jarvan IV']               |      31.4333 |      16 |        3 |        43 |     0.509  | 0.6045 |            1917.04 |                    nan |            213 |           886 |             3 |            2 |
+| 10660-10660_game_2 | Blue   | False     | ['Kennen', "Bel'Veth", 'Neeko', 'Senna', 'Tahm Kench'] | ['Nocturne', 'Udyr', 'Renata Glasc', 'Nautilus', 'Lee Sin'] |      31.85   |       3 |       17 |         8 |     0.0942 | 0.6279 |            2539.53 |                    nan |            166 |           790 |             0 |            0 |
+| 10660-10660_game_2 | Red    | True      | ['Jax', 'Jarvan IV', 'LeBlanc', 'Kalista', 'Rell']     | ['Poppy', 'Ashe', 'Rumble', 'Tristana', 'Lucian']           |      31.85   |      17 |        3 |        42 |     0.5338 | 0.6279 |            2978.65 |                    nan |            211 |           903 |             4 |            1 |
+| 10660-10660_game_3 | Blue   | True      | ['Jax', "Bel'Veth", 'Neeko', 'Caitlyn', 'Lux']         | ['Rell', 'Nocturne', 'Tristana', 'Jarvan IV', 'Rumble']     |      22.0667 |      21 |        3 |        32 |     0.9517 | 1.0876 |            2341.22 |                    nan |            153 |           634 |             2 |            1 |
+
+
