@@ -4,8 +4,6 @@ This project will use the [2024 League of Legends eSports Match Data](https://dr
 
 # Introduction
 
-League of Legends is an extremely popular multiplayer online battle arena game developed by Riot Games. The game is especially known for its eSports scene, which has to grown to be extensively competitive and rigorous.
-
 League of Legends is an extremely popular multiplayer online battle arena game developed by Riot Games. The game is especially known for its eSports scene, which has to grown to be extensively competitive and rigorous. The dataset used in this project comes from *Oracle's Elixir*, and contains detailed information about League of Legends matches played throughout 2024. 
 
 At the most basic level, League of Legends is a game about **strategy** and **teamwork**. With 170 champions to choose from, there are thousands of champion combinations and synergies. This makes a team's composition of champions a crucial factor in determining the outcome of a game—the better the synergy of a team, the more likely it is that they will win a game. However, at more competitive levels of League of Legends, there is also a mechanic known as the **ban phase**, where players can ban up to 5 champions for the other team, meaning that the opposing team will not be able to choose those champions. This mechanic can be vital for limiting the opposing team's synergy and ability to work well together. However, the ban phase is only as beneficial as the players make it, meaning that teams must choose their bans strategically. Collectively, the process of picking and banning champions is known as the **pick/ban phase**, and the results of this phase are what will be explored in detail in this project.
