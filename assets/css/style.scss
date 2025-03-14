@@ -22,6 +22,13 @@ header {
     margin: 0 0 40px 0;
 }
 
+th {
+    text-align: left;
+    border-bottom: 1px dashed #C89B3C;
+    padding: 5px 10px;
+}
+
+/* Change text colors */
 header h2 {
     font-size: 18px;
     font-weight: 300;
@@ -34,6 +41,15 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
     color: #0ce4f9; /* This will change link colors to match */
+}
+
+code.highlighter-rouge {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0px 3px;
+    margin: 0px -3px;
+    color: #C8AA6E;
+    border-radius: 2px;
 }
 
 /*
@@ -54,6 +70,7 @@ a {
 }
 */
 
+/* Change button colors */
 .btn {
     display: inline-block;
     background: -webkit-linear-gradient(top, #0AC8B9, #005A82);

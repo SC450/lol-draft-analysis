@@ -84,7 +84,7 @@ Let's take a look at the distribution of the `ckpm` column in our cleaned datase
 Now, we'll look at the relationship between `damage taken/min` and `ckpm` by plotting them against each other. The scatter plot shows a positive correlation with a generally linear relationship, meaning that the death toll of a game will generally increase as players take more damage per minute.
 
 <iframe
-  src="assets/dmgtaken_vs_ckpm_plot.html"
+  src="assets/dmg_taken_vs_ckpm_plot.html"
   width="1000"
   height="500"
   frameborder="0"
@@ -104,3 +104,48 @@ To conclude our exploration into the factors that make a game action-packed, let
 |             5 | 3425.73 | 3420.84 | 3431.95 | 3873.22 | 4023.9  |  nan    |
 |             6 | 3822.63 | 3338.37 | 4066.1  | 3820.12 | 3134.91 |  nan    |
 |             7 |  nan    |  nan    | 3204.86 |  nan    |  nan    | 3589.74 |
+
+# Assessment of Missingness
+
+## NMAR Analysis
+
+Looking at the cleaned League of Legends match dataset, I do not believe that there is a column which is NMAR (not missing at random). After analyzing the missingness of all of the columns in my dataset, the only columns which contain missing data are `damage mitigated/min` and columns containing early game metrics (`goldat10`, `xpat10`, `csat10`, etc.). Further exploration of these columns shows that their missingness is dependent on other columns, so their missingness is MAR (missing at random). For example, the early game metrics only seem to be present in games of higher leagues, which makes sense, since games in lower leagues are likely to be less competitive and engaging than games played in high tiers, and thus, early game metrics are not collected for these games.
+
+## Missingness Dependency
+
+We know that the missingness for early game metrics depends on the league that a game was played in, but what about `damage mitigated/min`? Does this column's missingness depend on any other columns? Let's first see how the distribution of `kills` looks when it is dependent on the missingness of `damage mitigated/min`.
+- Null Hypothesis: The missingness of `damage mitigated/min` does not depend on the values in `kills`.
+- Alternative Hypothesis: The missingness of `damage mitigated/min` depends on values in `kills`.
+- Test Statistic: KS-statistic.
+
+<iframe
+  src="assets/kills_by_missing_dmg_mit_plot.html"
+  width="1000"
+  height="500"
+  frameborder="0"
+></iframe>
+
+After running the permutation test, I found an extremely small p-value of $8.95 \times 10^{-10}$, so I reject the null and conclude that the missingness of `damage mitigated/min` **does** depend on the values in `kills`, so `damage mitigated/min` is MAR, conditional on `kills`.
+
+Now, let's see how the distribution of `dragonkills` looks like when it is dependent on the missingness of `damage mitigated/min`.
+
+<iframe
+  src="assets/dragon_kills_by_missing_dmg_mit_plot.html"
+  width="1000"
+  height="500"
+  frameborder="0"
+></iframe>
+
+I want to determine if the missingness of `damage mitigated/min` depends on `dragonkills`, so I will conduct a permutation test.
+- Null Hypothesis: The missingness of `damage mitigated/min` does not depend on the values in `dragonkills`.
+- Alternative Hypothesis: The missingness of `damage mitigated/min` depends on values in `dragonkills`.
+- Test Statistic: Difference in means.
+
+<iframe
+  src="assets/dist_of_means_dragon_kills_vs_dmg_mit_plot.html"
+  width="1000"
+  height="500"
+  frameborder="0"
+></iframe>
+
+The result of the permutation test gives a p-value of 0.314, so I fail to reject the null hypothesis and conclude that the missingness of `damage mitigated/min` **does not** depend on the values in `dragonkills`. This means that `damage mitigated/min` is MCAR (missing completely at random) when the column is conditioned on `dragonkills`.
