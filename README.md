@@ -125,7 +125,7 @@ We know that the missingness for early game metrics depends on the league that a
   frameborder="0"
 ></iframe>
 
-After running the permutation test, I found an extremely small p-value of $8.95 \times 10^{-10}$, so I reject the null and conclude that the missingness of `damage mitigated/min` **does** depend on the values in `kills`, so `damage mitigated/min` is MAR, conditional on `kills`.
+After running the permutation test, I found an extremely small p-value of 8.95 × 10^(-10), so I reject the null and conclude that the missingness of `damage mitigated/min` **does** depend on the values in `kills`, so `damage mitigated/min` is MAR, conditional on `kills`.
 
 Now, let's see how the distribution of `dragonkills` looks like when it is dependent on the missingness of `damage mitigated/min`.
 
