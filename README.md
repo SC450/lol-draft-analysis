@@ -182,3 +182,7 @@ Although our observed difference in means of `damage mitigated/min` between winn
 - Teams can safely ignore damage mitigation when picking their champions, without jeopardizing their chances of winning a game.
 
 We will ultimately have to conduct additional hypothesis tests to find out if these implications are true or not. However, the result of this hypothesis test is informative and may be interesting to some—I thought damage mitigation would have played a crucial role in determining which team wins a game.
+
+# Framing a Prediction Problem
+
+
