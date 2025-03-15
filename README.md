@@ -219,16 +219,16 @@ Before building my final model, I decided to engineer four new features:
     - This feature provides the model with information about popularity of champions at the team-level, capturing how well champions synergize and interact with each other. The model will be able to learn how combinations of champions affect a team's ability to win or lose a match.
 
 To construct my final model, I used a `XGBClassifier` from the `xgboost` library. I initialized the model with an initial set of hyperparameters that were manually chosen. These hyperparameters were:
-    - n_estimators = 300
-    - learning_rate = 0.08
-    - max_depth = 2
-    - subsample = 0.5
-    - min_child_weight = 1
-    - colsample_bytree = 0.6
-    - reg_alpha = 0.9
-    - reg_lambda = 1.2
-    - scale_pos_weight = 1
-    - gamma = 0
+- n_estimators = 300
+- learning_rate = 0.08
+- max_depth = 2
+- subsample = 0.5
+- min_child_weight = 1
+- colsample_bytree = 0.6
+- reg_alpha = 0.9
+- reg_lambda = 1.2
+- scale_pos_weight = 1
+- gamma = 0
 
 I then conducted `GridSearchCV` with the following hyperparameters:
 - `n_estimators`: Determines the number of trees in the model. Tuning this hyperparameter will find the most optimal tree population for the model.
@@ -239,15 +239,15 @@ I then conducted `GridSearchCV` with the following hyperparameters:
 - `reg_lambda`: Determines the amount of L2 regularization. Tuning this hyperparameter will also help the model from overfitting.
 
 After running `GridSearchCV`, I manually experimented with the optimal hyperparameters and other hyperparameters that I did not used `GridSearchCV` on to determine which combination of hyperparameters worked the best. I obtained the following set of hyperparameters:
-    - n_estimators = 500
-    - learning_rate = 0.0655
-    - max_depth = 2
-    - subsample = 0.999
-    - min_child_weight = 13
-    - colsample_bytree = 0.999
-    - reg_alpha = 1.4
-    - reg_lambda = 1
-    - scale_pos_weight = 1
-    - gamma = 0
+- n_estimators = 500
+- learning_rate = 0.0655
+- max_depth = 2
+- subsample = 0.999
+- min_child_weight = 13
+- colsample_bytree = 0.999
+- reg_alpha = 1.4
+- reg_lambda = 1
+- scale_pos_weight = 1
+- gamma = 0
 
 My final model's performance achieved an accuracy score of 0.687. This score is definitely an improvement over the baseline model, but not by a significant amount. Ultimately, predicting whether or not a team will win a game is a complex and difficult problem, and working off of limited data adds to the challenge of being able to accurately predict the outcome of a game. Using only the features of a team's chosen and banned champions, as well as their early game metrics, only serves as part of the whole story to the outcome of a game; League of Legends is a heavily skill-based game, so much of the weight that determines whether or not a team wins a game are the players themselves.
