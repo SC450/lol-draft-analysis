@@ -251,3 +251,13 @@ After running `GridSearchCV`, I manually experimented with the optimal hyperpara
 - `gamma` = 0
 
 My final model's performance achieved an accuracy score of 0.687. This score is definitely an improvement over the baseline model, but not by a significant amount. Ultimately, predicting whether or not a team will win a game is a complex and difficult problem, and working off of limited data adds to the challenge of being able to accurately predict the outcome of a game. Using only the features of a team's chosen and banned champions, as well as their early game metrics, only serves as part of the whole story to the outcome of a game; League of Legends is a heavily skill-based game, so much of the weight that determines whether or not a team wins a game are the players themselves.
+
+# Fairness Analysis
+
+Now that we have our final model constructed, let's see if it can be considered "fair." I want to see if my model is fair when predicting less action-packed (less bloody) games vs. more action-packed (more bloody) games. To do this, I will form two groups that are split by `killsat10`. Specifically, the question I will answer here is: **"Does my model perform worse for teams with a `killsat10` of lower than 3 than it does for teams with a `killsat10` of 3 or higher?"**
+- **Null Hypothesis**: The model is fair. Its accuracy for less bloody and more bloody games are about the same.
+- **Alternative Hypothesis**: The model is unfair. Its accuracy for less bloody and more bloody games are significantly different.
+- **Test Statistic**: Difference in accuracy.
+- **Significance Level**: 0.05
+
+The observed test statistic is -0.049. After performing a permutation test, I find that the p-value is 0.001, which falls well below the significance level of 0.05, and thus, I reject the null hypothesis. So, in conclusion, the model is unfair when predicting whether or not a team will win a game for less bloody vs. more bloody games.
