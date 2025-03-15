@@ -114,9 +114,10 @@ Looking at the cleaned League of Legends match dataset, I do not believe that th
 ## Missingness Dependency
 
 We know that the missingness for early game metrics depends on the league that a game was played in, but what about `damage mitigated/min`? Does this column's missingness depend on any other columns? Let's first see how the distribution of `kills` looks when it is dependent on the missingness of `damage mitigated/min`.
-- Null Hypothesis: The missingness of `damage mitigated/min` does not depend on the values in `kills`.
-- Alternative Hypothesis: The missingness of `damage mitigated/min` depends on values in `kills`.
-- Test Statistic: KS-statistic.
+- **Null Hypothesis**: The missingness of `damage mitigated/min` does not depend on the values in `kills`.
+- **Alternative Hypothesis**: The missingness of `damage mitigated/min` depends on values in `kills`.
+- **Test Statistic**: KS-statistic.
+- **Significance Level**: 0.05
 
 <iframe
   src="assets/kills_by_missing_dmg_mit_plot.html"
@@ -137,9 +138,10 @@ Now, let's see how the distribution of `dragonkills` looks like when it is depen
 ></iframe>
 
 I want to determine if the missingness of `damage mitigated/min` depends on `dragonkills`, so I will conduct a permutation test.
-- Null Hypothesis: The missingness of `damage mitigated/min` does not depend on the values in `dragonkills`.
-- Alternative Hypothesis: The missingness of `damage mitigated/min` depends on values in `dragonkills`.
-- Test Statistic: Difference in means.
+- **Null Hypothesis**: The missingness of `damage mitigated/min` does not depend on the values in `dragonkills`.
+- **Alternative Hypothesis**: The missingness of `damage mitigated/min` depends on values in `dragonkills`.
+- **Test Statistic**: Difference in means.
+- **Significance Level**: 0.05
 
 <iframe
   src="assets/dist_of_means_dragon_kills_vs_dmg_mit_plot.html"
@@ -149,3 +151,34 @@ I want to determine if the missingness of `damage mitigated/min` depends on `dra
 ></iframe>
 
 The result of the permutation test gives a p-value of 0.314, so I fail to reject the null hypothesis and conclude that the missingness of `damage mitigated/min` **does not** depend on the values in `dragonkills`. This means that `damage mitigated/min` is MCAR (missing completely at random) when the column is conditioned on `dragonkills`.
+
+## Hypothesis Testing
+
+There are many factors that can contribute to a team's win or loss in a game. In this section, I seek to determine if damage mitigation is an important factor in deciding the outcome of a game. Here are the pair of hypotheses I will be testing, along with my test statistic:
+- **Null Hypothesis**: Winning teams and losing teams both have the same average amount of damage mitigated per minute.
+- **Alternative Hypothesis**: Winning teams have a significantly higher average amount of damage mitigated per minute than losing teams.
+- **Test Statistic**: Difference in means of damage mitigated per minute between winning and losing teams.
+- **Significance Level**: 0.05
+
+Our observed statistic has a value of around 54. We need to conduct a hypothesis test to see if this value can be considered significant or not. To do this, we will:
+- Generate samples from the League of Legends match data.
+- For each generated sample, compute the difference in means between the sampled distribution and our actual (observed) distribution.
+- Lastly, determine if our observed difference in means of 54 can be considered "extreme" or not in our empirical distribution of differences in means.
+
+First, we should determine how big each sample should be. A good sample size should be representative of how many matches are played in a timeframe. For our purposes, a good timeframe will be a season, as there are multiple seasons in a year for competitive League of Legends. The `split` column in our raw League of Legends match data tells us the ranked season that a game was played in. Additionally, we will only use matches that have been played in playoffs when calculating our sample size, as playoffs are likely to be more competitive, and statistics like damage mitigation may matter more in these high-stakes games. Calculating the average amount of playoffs matches in a season, I obtain a sample size of 1600 matches. We can now proceed to running the hypothesis test.
+
+<iframe
+  src="assets/dist_of_means_dmg_mit_win_vs_lose_plot.html"
+  width="1000"
+  height="500"
+  frameborder="0"
+></iframe>
+
+The above histogram displays the distribution of generated differences in means from the hypothesis test. The p-value of this hypothesis test is 0.50044, so I fail to reject the null hypothesis.
+
+Although our observed difference in means of `damage mitigated/min` between winning and losing teams shows that winning teams do have a higher amount of damage mitigation per minute than losing teams, our hypothesis test shows that winning teams do not have a **significantly** higher amount of damage mitigation per minute than losing teams. Recall that our null hypothesis is "Winning teams and losing teams both have the same average amount of damage mitigated per minute." The conclusion of our hypothesis test is that we fail to reject the null hypothesis. This could have a number of implications:
+- Damage mitigation is not as an important of a factor in winning a game compared to other factors.
+- Damage mitigation may be a "niche" strategy to winning a game.
+- Teams can safely ignore damage mitigation when picking their champions, without jeopardizing their chances of winning a game.
+
+We will ultimately have to conduct additional hypothesis tests to find out if these implications are true or not. However, the result of this hypothesis test is informative and may be interesting to some—I thought damage mitigation would have played a crucial role in determining which team wins a game.
