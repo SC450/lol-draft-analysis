@@ -152,7 +152,7 @@ I want to determine if the missingness of `damage mitigated/min` depends on `dra
 
 The result of the permutation test gives a p-value of 0.314, so I fail to reject the null hypothesis and conclude that the missingness of `damage mitigated/min` **does not** depend on the values in `dragonkills`. This means that `damage mitigated/min` is MCAR (missing completely at random) when the column is conditioned on `dragonkills`.
 
-## Hypothesis Testing
+# Hypothesis Testing
 
 There are many factors that can contribute to a team's win or loss in a game. In this section, I seek to determine if damage mitigation is an important factor in deciding the outcome of a game. Here are the pair of hypotheses I will be testing, along with my test statistic:
 - **Null Hypothesis**: Winning teams and losing teams both have the same average amount of damage mitigated per minute.
@@ -199,4 +199,55 @@ To create my baseline model, I used a `SGDClassifier`, which is a linear classif
 
 In total, I am using 2 nominal features, 15 quantitative features, and no ordinal features. For the transformation of my data, I will only be transforming the `picks` and `bans` columns, as they are in a unique data format where values are lists of five strings. The rest of the columns are quantitative and are already in a usable format. To transform the `picks` and `bans` columns, I one-hot encoded them using a custom `ListOneHotEncoder` class that I created using the `BaseEstimator` and `TransformerMixin` classes from `scikit-learn`. This process transformed `picks` and `bans` so that each element in the lists of these columns would be one-hot encoded individually, rather than directly one-hot encoding the lists themselves. 
 
-The accuracy score of my baseline model is 0.64, which sounds decent, but still not quite good in my opinion. Given a total of 17 features, I would have expected my baseline model to perform slightly better, but the low accuracy is understandable, as this model is just a baseline model, and is not fully optimized to the dataset.
+The accuracy score of my baseline model is 0.642, which sounds decent, but still not quite good in my opinion. Given a total of 17 features, I would have expected my baseline model to perform slightly better, but the low accuracy is understandable, as this model is just a baseline model, and is not fully optimized to the dataset.
+
+# Final Model
+
+Before building my final model, I decided to engineer four new features:
+- **Rarity of picks** (champion usage rate) and **rarity of bans** (champion ban rate)
+    - Since there are 5 chosen and 5 banned champions for each team, I will create these features as `combined_pick_rate` and `combined_ban_rate`: `combined_pick_rate` will be the sum of pick rates of all 5 picked champions for a team, and similarly, `combined_ban_rate` will be the sum of ban rates of all 5 banned champions for a team. For this feature, each champion does not need to have their own column for pick and ban rates, and we can just sum rates together because summing all of the rates together is just a linear combination, so no features are lost.
+    - These two features will be helpful for the model, as they add information about popularity of champion picks and bans, which cannot be extracted solely from just looking at the `picks` and `bans` columns. These features help define a broad picture of the meta of League of Legends, and knowing how to play the meta well can increase the likelihood of victory.
+- **Champions' pick to ban ratio**
+    - Similarly for `combined_pick_rate` and `combined_ban_rate`, I will create this feature as `combined_pick_ban_ratio`, which will be the sum of each champion's pick to ban ratio (a champion's pick to ban ratio will be defined as the number of times a champion is picked divided by the number of times that same champion is banned), using the champions in `picks`. Again, there is no need to worry about loss of features when combining pick to ban ratios together, as they are just linear combinations, so data is preserved.
+    - This feature will be useful for the model because it provides strategic information about the priority and desirability of champions. 
+        - High pick to ban ratios suggest that a champion can be picked frequently and is not essential to ban.
+        - Low pick to ban ratios suggest that a champion could be problematic or dangerous to play against, and should have priority in the ban phase.
+        - Ratios of about 1 suggest that a champion is desirable to both pick and ban, and is generally balanced in power.
+    - The model gains a measure of a team's strength from this feature, and teams with higher strength can be more likely to win a game, while teams with lower strength can be less likely to win a game.
+- Champion group rarity (rarity of champion combination)
+    - I will create this feature as `group_rarity`, which will be defined as a rank representing the frequency of a team's combination of champions in `picks`; the higher that `group_rarity` is, the more common that combination of champions is, and the lower that `group_rarity` is, the less common that combination of champions is. Since we are dealing with combinations, the order of the champions does not matter; for example, [Rumble, Nocturne, Yone, Kai'Sa, Nautilus] is the same combination as [Yone, Kai'Sa, Nautilus, Nocturne, Rumble].
+    - This feature provides the model with information about popularity of champions at the team-level, capturing how well champions synergize and interact with each other. The model will be able to learn how combinations of champions affect a team's ability to win or lose a match.
+
+To construct my final model, I used a `XGBClassifier` from the `xgboost` library. I initialized the model with an initial set of hyperparameters that were manually chosen. These hyperparameters were:
+    - n_estimators = 300
+    - learning_rate = 0.08
+    - max_depth = 2
+    - subsample = 0.5
+    - min_child_weight = 1
+    - colsample_bytree = 0.6
+    - reg_alpha = 0.9
+    - reg_lambda = 1.2
+    - scale_pos_weight = 1
+    - gamma = 0
+
+I then conducted `GridSearchCV` with the following hyperparameters:
+- `n_estimators`: Determines the number of trees in the model. Tuning this hyperparameter will find the most optimal tree population for the model.
+- `learning_rate`: The step size for updating the model's weights. Tuning this hyperparameter will find the most balanced speed for the model to learn at.
+- `min_child_weight`: Determines the minimum weight for a child node. Tuning this hyperparameter will prevent the model from overfitting or underfitting.
+- `colsample_bytree`: Determines the amount of features to be used when creating a tree. Tuning this hyperparameter will find the optimal level of "randomness" to instigate into the model.
+- `reg_alpha`: Determines the amount of L1 regularization. Tuning this hyperparameter will help prevent the model from overfitting.
+- `reg_lambda`: Determines the amount of L2 regularization. Tuning this hyperparameter will also help the model from overfitting.
+
+After running `GridSearchCV`, I manually experimented with the optimal hyperparameters and other hyperparameters that I did not used `GridSearchCV` on to determine which combination of hyperparameters worked the best. I obtained the following set of hyperparameters:
+    - n_estimators = 500
+    - learning_rate = 0.0655
+    - max_depth = 2
+    - subsample = 0.999
+    - min_child_weight = 13
+    - colsample_bytree = 0.999
+    - reg_alpha = 1.4
+    - reg_lambda = 1
+    - scale_pos_weight = 1
+    - gamma = 0
+
+My final model's performance achieved an accuracy score of 0.687. This score is definitely an improvement over the baseline model, but not by a significant amount. Ultimately, predicting whether or not a team will win a game is a complex and difficult problem, and working off of limited data adds to the challenge of being able to accurately predict the outcome of a game. Using only the features of a team's chosen and banned champions, as well as their early game metrics, only serves as part of the whole story to the outcome of a game; League of Legends is a heavily skill-based game, so much of the weight that determines whether or not a team wins a game are the players themselves.
